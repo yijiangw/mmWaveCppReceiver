@@ -1,0 +1,19 @@
+{
+    "UdpProfile":
+    {
+        "BYTES_IN_PACKET":1466,
+        "IP":"192.168.33.30",
+        "PORT":4098,
+        "SOCKET_BUFFER_SIZE":33554432
+    },
+    "FrameProfile":{
+        "FrameAmount":200,
+        "chrips":50,
+        "rx": 4,
+        "tx": 3,
+        "samples": 300,
+        "IQ": 2,
+        "bytes": 2,
+        "LVDStype":2
+    }
+}
