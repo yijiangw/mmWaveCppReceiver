@@ -145,6 +145,7 @@
     <ClCompile Include="FramePersistance.cpp" />
     <ClCompile Include="FrameProfile.cpp" />
     <ClCompile Include="jsoncpp.cpp" />
+    <ClCompile Include="mmWaveFactory.cpp" />
     <ClCompile Include="mmWaveFrameCapture.cpp" />
     <ClCompile Include="PacketCapture.cpp" />
     <ClCompile Include="PacketDeque.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="FrameProfile.h" />
     <ClInclude Include="json\json-forwards.h" />
     <ClInclude Include="json\json.h" />
+    <ClInclude Include="mmWaveFactory.h" />
     <ClInclude Include="PacketCapture.h" />
     <ClInclude Include="PacketDeque.h" />
     <ClInclude Include="UdpHolder.h" />

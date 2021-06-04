@@ -41,6 +41,9 @@
     <ClCompile Include="PacketDeque.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="mmWaveFactory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacketCapture.h">
@@ -77,6 +80,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="PacketDeque.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="mmWaveFactory.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -21,5 +21,13 @@ private:
     std::list<std::chrono::milliseconds> msTimeStampList;
     int frameSize;
     std::ofstream outfile;
+    std::list<packetLostStatus> packetLostList;
+
+    // 通过 FramePersistance 继承
+    virtual std::list<packetLostStatus> getPacketLostLog() override;
+    packetLostStatus recentPacketLostStatus = FULLY_SAVED;
+
+    // 通过 FramePersistance 继承
+    virtual int packetLostAnnounce() override;
 };
 

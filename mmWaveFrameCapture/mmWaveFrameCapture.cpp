@@ -11,25 +11,31 @@
 #include "PacketCapture.h"
 #include "ConfigLoader.h"
 #include "FrameFileSaver.h"
+#include "mmWaveFactory.h"
 int main()
 {
-    ConfigLoader configLD(std::string("C:\\Users\\wyj19\\source\\repos\\mmWaveCppReceiver\\config\\config.json"));
-    PacketDeque* udpPacketDeque = new PacketDeque();
-    PacketCapture myPacketCapture(new UdpHolder(configLD.getUdpProfile()), udpPacketDeque);
-    FramePersistance* mySaver = new FrameFileSaver(configLD.getFrameProfile(),std::string("frameDataTest.dat"));
-    FrameCollection myFrameCollection(udpPacketDeque, configLD.getFrameProfile(), mySaver);
-    std::future<int>f = std::async(&PacketCapture::start, &myPacketCapture);
-    myFrameCollection.setFrameAmount(10);
+
+    mmWaveFactory mmWaveTaskFactory(std::string("C:\\Users\\wyj19\\source\\repos\\mmWaveCppReceiver\\config\\config.json"));
+    FramePersistance* mySaver = &mmWaveTaskFactory.getFrameSaver(std::string("frameDataTest.dat"));
+    PacketCapture myPacketCapture = mmWaveTaskFactory.getPacketCaptureTask();
+    FrameCollection myFrameCollection = mmWaveTaskFactory.getFrameCollectionTask(100, mySaver);
+
+    std::future<int>f = std::async(&PacketCapture::start, &myPacketCapture);    
     std::future<int> f1=std::async(std::launch::async,&FrameCollection::start, &myFrameCollection);
+
     f1.get();
     std::cout << "Finished!\n";
     myPacketCapture.stop();
     std::list<std::chrono::milliseconds>  timeStampList = mySaver->getTimeStampLog();
-    std::list<std::chrono::milliseconds>::iterator it;
-    it = timeStampList.begin();
-    while (it != timeStampList.end()) {
-        std::cout << it->count() << std::endl;
-        it++;
+    std::list<packetLostStatus>  timeStpacketLostRecord = mySaver->getPacketLostLog();
+    std::list<std::chrono::milliseconds>::iterator itTS;
+    std::list<packetLostStatus>::iterator itPL;
+    itTS = timeStampList.begin();
+    itPL = timeStpacketLostRecord.begin();
+    while (itTS != timeStampList.end()) {
+        std::cout << itTS->count() << std::endl;
+        std::cout << *itPL << std::endl;
+        itTS++; itPL++;
     }
     
     delete mySaver;

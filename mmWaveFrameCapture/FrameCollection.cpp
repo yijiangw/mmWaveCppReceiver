@@ -87,13 +87,15 @@ int FrameCollection::start()
             }
             else {
                 if (packetNum - lastPacketNum > 1) {
-                    //lost packet        
+                    //lost packet     
+                    frameSaver->packetLostAnnounce();
                     std::cout << "LOST PACKET" << packetNum - lastPacketNum << std::endl;
                     if (byteCount / wholeFrameSize > (byteCount - (__int64)(packetNum - lastPacketNum - 1) * sizeof(newPacket.data)) / wholeFrameSize) {
                         // if among two Frames
                         if (!FrameCollection::frameAmount || frameNum < FrameCollection::frameAmount) {
-                            frameNum++;
+                            frameNum++;                            
                             frameSaver->put(frameContainer);
+                            frameSaver->packetLostAnnounce();
                             std::cout << "finish frame"<< frameNum  << std::endl;
                             memset(frameContainer, 0, wholeFrameSize);
                         }
