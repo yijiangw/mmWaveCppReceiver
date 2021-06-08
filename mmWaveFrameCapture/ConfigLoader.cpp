@@ -13,7 +13,7 @@ ConfigLoader::ConfigLoader(std::string configJsonPath)
     Json::Value node;
     JSONCPP_STRING err;
     std::ifstream ifs;
-    ifs.open("config.json");
+    ifs.open(configJsonPath);
     //char buffer[256]; ifs.getline(buffer, 100);
     //std::cout << "aaaaa" << std::endl;
     //std::cout << ifs.is_open() << std::endl;

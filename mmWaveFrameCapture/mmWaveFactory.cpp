@@ -1,8 +1,7 @@
 #include "mmWaveFactory.h"
 
-mmWaveFactory::mmWaveFactory(std::string path)
-{
-    mmWaveFactory::configLD = ConfigLoader(std::string("C:\\Users\\wyj19\\source\\repos\\mmWaveCppReceiver\\config\\config.json"));
+mmWaveFactory::mmWaveFactory(std::string path):configLD(path)
+{    
 }
 
 PacketCapture mmWaveFactory::getPacketCaptureTask()
@@ -25,7 +24,8 @@ FrameCollection mmWaveFactory::getFrameCollectionTask(int frameCount, FramePersi
     return task;
 }
 
-FrameFileSaver mmWaveFactory::getFrameSaver(std::string path)
+FrameFileSaver* mmWaveFactory::getFrameSaver(std::string path)
 {
-    return FrameFileSaver(mmWaveFactory::configLD.getFrameProfile(),path);
+    FrameFileSaver *ffs = new FrameFileSaver(mmWaveFactory::configLD.getFrameProfile(), path);
+    return ffs;
 }

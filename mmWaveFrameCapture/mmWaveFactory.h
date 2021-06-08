@@ -13,7 +13,7 @@ public:
     PacketCapture getPacketCaptureTask();
     FrameCollection getFrameCollectionTask();
     FrameCollection getFrameCollectionTask(int frameCount, FramePersistance* saver);
-    FrameFileSaver getFrameSaver(std::string path);
+    FrameFileSaver* getFrameSaver(std::string path);
        
 
 private:

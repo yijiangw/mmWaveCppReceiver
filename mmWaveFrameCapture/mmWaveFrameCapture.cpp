@@ -16,7 +16,7 @@ int main()
 {
 
     mmWaveFactory mmWaveTaskFactory(std::string("C:\\Users\\wyj19\\source\\repos\\mmWaveCppReceiver\\config\\config.json"));
-    FramePersistance* mySaver = &mmWaveTaskFactory.getFrameSaver(std::string("frameDataTest.dat"));
+    FramePersistance* mySaver = mmWaveTaskFactory.getFrameSaver(std::string("frameDataTest.dat"));
     PacketCapture myPacketCapture = mmWaveTaskFactory.getPacketCaptureTask();
     FrameCollection myFrameCollection = mmWaveTaskFactory.getFrameCollectionTask(100, mySaver);
 
