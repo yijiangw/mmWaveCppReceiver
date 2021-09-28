@@ -23,6 +23,7 @@ int FrameCollection::start()
     FrameCollection::udpPacketDeque->clear();
     int wholeFrameSize = fp->getFrameSize();
     char* frameContainer = (char*)malloc(wholeFrameSize);
+    char* frameContainerWritePointer = frameContainer;
     memset(frameContainer, 0, wholeFrameSize);
     int packetNum = 0;
     int lastPacketNum = 0;
@@ -42,9 +43,10 @@ int FrameCollection::start()
             lastFramegatheredCount = byteCount % wholeFrameSize;
             boundToFinish = wholeFrameSize - sizeof(newPacket.data);
             if (lastFramegatheredCount > boundToFinish) {
-                memcpy(frameContainer,
+                memcpy(frameContainerWritePointer,
                     newPacket.data + wholeFrameSize - lastFramegatheredCount,
-                    lastFramegatheredCount + sizeof(newPacket.data) - wholeFrameSize);       
+                    lastFramegatheredCount + sizeof(newPacket.data) - wholeFrameSize);
+                frameContainerWritePointer += lastFramegatheredCount + sizeof(newPacket.data) - wholeFrameSize;
                 break;
             }
         }
@@ -80,10 +82,11 @@ int FrameCollection::start()
                     
                 //start new frame
                 memset(frameContainer, 0, wholeFrameSize);
-
-                memcpy(frameContainer,
+                frameContainerWritePointer = frameContainer;
+                memcpy(frameContainerWritePointer,
                     newPacket.data + wholeFrameSize - lastFramegatheredCount,
                     lastFramegatheredCount + sizeof(newPacket.data) - wholeFrameSize);
+                frameContainerWritePointer += lastFramegatheredCount + sizeof(newPacket.data) - wholeFrameSize;
             }
             else {
                 if (packetNum - lastPacketNum > 1) {
@@ -98,6 +101,7 @@ int FrameCollection::start()
                             frameSaver->packetLostAnnounce();
                             std::cout << "finish frame"<< frameNum  << std::endl;
                             memset(frameContainer, 0, wholeFrameSize);
+                            frameContainerWritePointer = frameContainer;
                         }
                         else {
                             std::cout << "return 0" << std::endl;
@@ -105,9 +109,10 @@ int FrameCollection::start()
                         }
                     }                    
                 }
-                memcpy(frameContainer,
+                memcpy(frameContainerWritePointer,
                     newPacket.data,
-                    sizeof(newPacket.data));                
+                    sizeof(newPacket.data)); 
+                frameContainerWritePointer += sizeof(newPacket.data);
             }
             lastPacketNum = packetNum;
         }
