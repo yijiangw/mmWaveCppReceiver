@@ -100,14 +100,14 @@ int FrameCollection::start()
                             frameSaver->put(frameContainer);
                             frameSaver->packetLostAnnounce();
                             std::cout << "finish frame"<< frameNum  << std::endl;
-                            memset(frameContainer, 0, wholeFrameSize);
-                            frameContainerWritePointer = frameContainer;
+                            memset(frameContainer, 0, wholeFrameSize);                            
                         }
                         else {
                             std::cout << "return 0" << std::endl;
                             return 0;
                         }
-                    }                    
+                    }
+                    frameContainerWritePointer = frameContainer + byteCount % wholeFrameSize;
                 }
                 memcpy(frameContainerWritePointer,
                     newPacket.data,
