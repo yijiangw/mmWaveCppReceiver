@@ -65,7 +65,7 @@ int FrameCollection::start()
 
             if (lastFramegatheredCount > boundToFinish) {
                 //finish last frame
-                memcpy(frameContainer,
+                memcpy(frameContainerWritePointer,
                     newPacket.data,
                     wholeFrameSize - lastFramegatheredCount);
 
