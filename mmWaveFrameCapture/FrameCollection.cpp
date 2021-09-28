@@ -62,9 +62,10 @@ int FrameCollection::start()
             boundToFinish = wholeFrameSize - sizeof(newPacket.data);
             //std::cout << "FrameC2" << FrameCollection::udpPacketDeque->size() << std::endl;
             //std::cout << "packetNum" << newPacket.packetNum << "byteCount" << byteCount << std::endl;
-
-            if (lastFramegatheredCount > boundToFinish) {
-                //finish last frame
+            
+            //finish last frame
+            if (lastFramegatheredCount >= boundToFinish) {
+                
                 memcpy(frameContainerWritePointer,
                     newPacket.data,
                     wholeFrameSize - lastFramegatheredCount);
@@ -89,8 +90,8 @@ int FrameCollection::start()
                 frameContainerWritePointer += lastFramegatheredCount + sizeof(newPacket.data) - wholeFrameSize;
             }
             else {
+                //lost packet 
                 if (packetNum - lastPacketNum > 1) {
-                    //lost packet     
                     frameSaver->packetLostAnnounce();
                     std::cout << "LOST PACKET" << packetNum - lastPacketNum << std::endl;
                     if (byteCount / wholeFrameSize > (byteCount - (__int64)(packetNum - lastPacketNum - 1) * sizeof(newPacket.data)) / wholeFrameSize) {
