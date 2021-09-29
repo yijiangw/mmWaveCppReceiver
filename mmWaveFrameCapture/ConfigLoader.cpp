@@ -2,7 +2,7 @@
 #include "json/json.h"
 #include <iostream>
 #include <fstream> 
-ConfigLoader::ConfigLoader():ConfigLoader::ConfigLoader(".\\config.json")
+ConfigLoader::ConfigLoader():ConfigLoader::ConfigLoader("config.json")
 {    
 }
 
@@ -12,8 +12,12 @@ ConfigLoader::ConfigLoader(std::string configJsonPath)
     ConfigLoader::fp = NULL;
     Json::Value node;
     JSONCPP_STRING err;
-    std::ifstream ifs;
-    ifs.open(configJsonPath);
+    const std::string filepath = configJsonPath;
+    std::ifstream ifs(filepath);
+    
+    if (!ifs.is_open()) {
+        std::cout << "Config File cannot be found" << std::endl;
+    }
     //char buffer[256]; ifs.getline(buffer, 100);
     //std::cout << "aaaaa" << std::endl;
     //std::cout << ifs.is_open() << std::endl;
